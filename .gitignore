@@ -1,4 +1,8 @@
 data
-model
 fce
 wi+locness
+model
+dict.txt
+encoder.json
+vocab.bpe
+data-bin

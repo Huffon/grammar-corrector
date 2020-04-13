@@ -58,6 +58,22 @@ python generate.py
 
 <br/>
 
+## Data statistics
+
+```
+Source length
+    Max: 1095
+    Min: 2
+    Avg: 87
+
+Target length
+    Max: 1153
+    Min: 1
+    Avg: 88
+```
+
+<br/>
+
 ## References
 - [BEA 2019](https://convention2.allacademic.com/one/bea/bea19/)
 - [CoNLL 2014](https://www.comp.nus.edu.sg/~nlp/conll14st.html)

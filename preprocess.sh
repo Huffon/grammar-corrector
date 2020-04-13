@@ -8,9 +8,23 @@ wget https://www.cl.cam.ac.uk/research/nl/bea2019st/data/fce_v2.1.bea19.tar.gz
 tar xvzf fce_v2.1.bea19.tar.gz
 rm fce_v2.1.bea19.tar.gz
 
-rm -rf wi+locness fce
+# JFLEG
+git clone https://github.com/keisks/jfleg.git
+
+# CoNLL 2013
+wget https://www.comp.nus.edu.sg/~nlp/conll13st/release2.3.1.tar.gz
+tar xvzf release2.3.1.tar.gz
+rm release2.3.1.tar.gz
+
+# CoNLL 2014
+wget https://www.comp.nus.edu.sg/~nlp/conll14st/conll14st-test-data.tar.gz
+tar xvzf conll14st-test-data.tar.gz
+rm conll14st-test-data.tar.gz
 
 python utils/preprocess.py
+
+rm -rf wi+locness fce release2.3.1 conll14st-test-data jfleg
+rm *.src *.tgt
 
 wget -N 'https://dl.fbaipublicfiles.com/fairseq/gpt2_bpe/encoder.json'
 wget -N 'https://dl.fbaipublicfiles.com/fairseq/gpt2_bpe/vocab.bpe'
