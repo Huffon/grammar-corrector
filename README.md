@@ -1,6 +1,6 @@
 # Grammar Error Corrector
 
-This repository contains Grammar Error Corrector API trained using **BART** architecture
+This repository contains **Grammar Error Corrector** API trained using **BART** architecture
 
 Lots of code are borrowed from [fairseq](https://github.com/pytorch/fairseq) library
 
@@ -31,8 +31,8 @@ bash preprocess.sh
 
 ### BART
 
-- Best loss: **2.75**
-- To download and fine-tune pre-trained **BART**, run following command:
+- Best loss: **2.75** (**1** epoch)
+- To **download** and **fine-tune** pre-trained **BART**, run following command:
 
 ```
 wget https://dl.fbaipublicfiles.com/fairseq/models/bart.large.tar.gz
@@ -40,7 +40,7 @@ tar xvzf bart.large.tar.gz
 bash train.sh
 ```
 
-- To **generate** example sentence using fine-tunied BART, run following command:
+- To **generate** example sentence using fine-tunied **BART**, run following command:
 
 ```
 python generate.py
@@ -51,7 +51,7 @@ python generate.py
 
 ## Example
 
-- To test your own sentences, fill [**input.txt**](output/input.txt) with your sentences
+- To **test** your own sentences, fill [**input.txt**](output/input.txt) with your sentences
 
 ```
 [Before]
