@@ -2,7 +2,7 @@ TOTAL_NUM_UPDATES=10000
 WARMUP_UPDATES=300     
 LR=3e-05
 MAX_TOKENS=4000
-UPDATE_FREQ=1
+UPDATE_FREQ=2
 BART_PATH=/model/bart.large/model.pt
 
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python utils/train.py data-bin \

@@ -21,6 +21,7 @@ wget https://www.comp.nus.edu.sg/~nlp/conll14st/conll14st-test-data.tar.gz
 tar xvzf conll14st-test-data.tar.gz
 rm conll14st-test-data.tar.gz
 
+mkdir data
 python utils/preprocess.py
 
 rm -rf wi+locness fce release2.3.1 conll14st-test-data jfleg
