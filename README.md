@@ -40,7 +40,7 @@ tar xvzf bart.large.tar.gz
 bash train.sh
 ```
 
-- To **generate** example sentence using fine-tunied **BART**, run following command:
+- To **generate** example sentence using fine-tuned **BART**, run following command:
 
 ```
 python generate.py
