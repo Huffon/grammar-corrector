@@ -31,6 +31,7 @@ bash preprocess.sh
 
 ### BART
 
+- Best loss: **2.75**
 - To download and fine-tune pre-trained **BART**, run following command:
 
 ```
@@ -39,7 +40,7 @@ tar xvzf bart.large.tar.gz
 bash train.sh
 ```
 
-- To **generate** example sentence using [fine-tunied BART](), run following command:
+- To **generate** example sentence using fine-tunied BART, run following command:
 
 ```
 python generate.py
@@ -57,15 +58,19 @@ python generate.py
 (1): He am happy.
 (2): He will happy.
 (3): I went for school.
-(4): I loves korean.
-(5): He don't speak English.
+(4): He don't speak English.
+(5): I doens't have money.
+(6): I want going for Guam.
+(7): I like here.
 
 [After]
 (1): He is happy.
 (2): He will be happy.
 (3): Then I went to school.
-(4): I love korean.
-(5): He doesn't speak English.
+(4): He doesn't speak English.
+(5): I do n't have money.
+(6): I want to go to Guam.
+(7): I like it here.
 ```
 
 <br/>
@@ -88,5 +93,8 @@ Target length
 
 ## References
 - [BEA 2019](https://convention2.allacademic.com/one/bea/bea19/)
+- [CoNLL 2013](https://www.comp.nus.edu.sg/~nlp/conll13st.html)
 - [CoNLL 2014](https://www.comp.nus.edu.sg/~nlp/conll14st.html)
+- [JFLEG](https://github.com/keisks/jfleg)
 - [fairseq](https://github.com/pytorch/fairseq)
+- [Kakao Brains' **helo_word**](https://github.com/kakaobrain/helo_word)
