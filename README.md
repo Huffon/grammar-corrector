@@ -53,7 +53,19 @@ python generate.py
 - To test your own sentences, fill [**input.txt**](output/input.txt) with your sentences
 
 ```
+[Before]
+(1): He am happy.
+(2): He will happy.
+(3): I went for school.
+(4): I loves korean.
+(5): He don't speak English.
 
+[After]
+(1): He is happy.
+(2): He will be happy.
+(3): Then I went to school.
+(4): I love korean.
+(5): He doesn't speak English.
 ```
 
 <br/>
