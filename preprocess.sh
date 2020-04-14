@@ -21,6 +21,11 @@ wget https://www.comp.nus.edu.sg/~nlp/conll14st/conll14st-test-data.tar.gz
 tar xvzf conll14st-test-data.tar.gz
 rm conll14st-test-data.tar.gz
 
+# WikiEdit
+wget http://data.statmt.org/romang/wiked/wiked-v1.0.en.prepro.tgz
+tar xvzf wiked-v1.0.en.prepro.tgz
+rm wiked-v1.0.en.prepro.tgz
+
 mkdir data
 python utils/preprocess.py
 

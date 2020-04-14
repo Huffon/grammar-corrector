@@ -1,8 +1,8 @@
-TOTAL_NUM_UPDATES=10000  
-WARMUP_UPDATES=300     
+TOTAL_NUM_UPDATES=20000
+WARMUP_UPDATES=500
 LR=3e-05
 MAX_TOKENS=4000
-UPDATE_FREQ=2
+UPDATE_FREQ=4
 BART_PATH=bart.large/model.pt
 
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python utils/train.py data-bin \
@@ -26,4 +26,5 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python utils/train.py data-bin \
     --fp16 --update-freq $UPDATE_FREQ \
     --skip-invalid-size-inputs-valid-test \
     --save-dir ckpt \
+    --save-interval-updates	200 \
     --find-unused-parameters;
