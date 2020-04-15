@@ -21,6 +21,7 @@ def main():
             preds = bart.sample(lines, beam=4, lenpen=2.0, no_repeat_ngram_size=2, temperature=0.9)
             print("\n[After]")
             for i, pred in enumerate(preds):
+                pred = pred.replace("&apos;", "'")
                 print(f"({i+1}): {pred}")
 
 

@@ -118,9 +118,6 @@ def preprocess_wikiedit():
         srcs = f_src.readlines()
         tgts = f_tgt.readlines()
 
-        srcs = srcs[-500000:]
-        tgts = tgts[-500000:]
-
         slices = len(srcs) // 8
         process1 = multiprocessing.Process(target=worker, args=[srcs[:slices], tgts[:slices]])
         process2 = multiprocessing.Process(target=worker, args=[srcs[slices:slices*2], tgts[slices:slices*2]])

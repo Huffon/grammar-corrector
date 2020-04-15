@@ -1,4 +1,4 @@
-ckpt
+ckpt*
 bart.large
 data
 fce
@@ -8,3 +8,4 @@ dict.txt
 encoder.json
 vocab.bpe
 data-bin
+*.out
