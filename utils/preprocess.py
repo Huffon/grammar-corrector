@@ -205,16 +205,16 @@ def main():
     logging.info("[TRAIN] CoNLL 2013")
     m2_to_parallel(sorted(glob("release2.3.1/original/data/official-preprocessed.m2")), "2013.src", "2013.tgt", False, False)
     
-    logging.info("[TRAIN] WikEd")
-    preprocess_wikiedit()
-    create_pair("train", ["wi", "fce", "jfleg", "2013", "wiki_train"])
+    # logging.info("[TRAIN] WikEd")
+    # preprocess_wikiedit()
+    create_pair("train", ["wi", "fce", "jfleg", "2013"])
 
     logging.info("[VAL] WI+Locness")
     m2_to_parallel(sorted(glob("wi+locness/m2/*.dev.*m2")), "wi_test.src", "wi_test.tgt", False, True)
 
     logging.info("[VAL] CoNLL 2014")
     m2_to_parallel(sorted(glob("conll14st-test-data/noalt/official-2014.combined.m2")), "2014.src", "2014.tgt", False, False)
-    create_pair("val", ["wi_test", "2014", "wiki_valid"])
+    create_pair("val", ["wi_test", "2014"])
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

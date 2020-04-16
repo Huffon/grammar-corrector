@@ -75,18 +75,18 @@ python generate.py
 
 <br/>
 
-## Data statistics
+## Data statistics (w/o WikEd)
 
 ```
 Source length
     Max: 1095
     Min: 2
-    Avg: 87
+    Avg: 86
 
 Target length
     Max: 1153
     Min: 1
-    Avg: 88
+    Avg: 87
 ```
 
 <br/>
