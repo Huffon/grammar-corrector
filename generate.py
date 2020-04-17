@@ -3,8 +3,32 @@ import torch
 from fairseq.models.bart import BARTModel
 
 
+def reorder(sent: str):
+    """Post-process automatically corrected sentence
+    """
+    specials = [".", ",", "?", "!", "n't", "'s", "'ve"]
+    result = list()
+    
+    sent = sent.replace("&apos;", "'")
+    tokens = sent.split(" ")
+
+    if tokens[0] == "-":
+        tokens.pop(0)
+
+    for token in tokens:
+        if token in specials:
+            result[-1] = result[-1] + token
+            continue
+
+        if len(result) > 0 and (result[-1] in ["'", '"']):
+            result[-1] = result[-1] + token
+        result.append(token)
+
+    return " ".join(result)
+
+
 def main():
-    bart = BARTModel.from_pretrained("ckpt", checkpoint_file="checkpoint_best.pt")
+    bart = BARTModel.from_pretrained("ckpt", checkpoint_file="checkpoint8.pt")
     bart.cuda()
     bart.half()
     bart.eval()
@@ -17,9 +41,8 @@ def main():
             preds = bart.sample(lines)
 
             for i, (line, pred) in enumerate(zip(lines, preds)):
-                pred = pred.replace("&apos;", "'")
                 print(f"[ori] ({i+1}): {line}")
-                print(f"[cor] ({i+1}): {pred}")
+                print(f"[cor] ({i+1}): {reorder(pred)}")
                 print()
 
 
