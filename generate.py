@@ -18,7 +18,7 @@ def main():
             print(f"({i+1}): {line}")
         
         with torch.no_grad():
-            preds = bart.sample(lines, beam=4, lenpen=2.0, no_repeat_ngram_size=2, temperature=0.9)
+            preds = bart.sample(lines, temperature=0.8)
             print("\n[After]")
             for i, pred in enumerate(preds):
                 pred = pred.replace("&apos;", "'")

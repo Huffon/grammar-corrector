@@ -2,7 +2,7 @@
 import os
 import random
 import logging
-import multiprocessing
+# import multiprocessing
 
 import spacy
 
@@ -11,13 +11,12 @@ from glob import glob
 from typing import List
 
 random.seed(42)
+# NLP = spacy.load("en_core_web_sm")
+# MANAGER = multiprocessing.Manager()
+# WIKI_SRCS, WIKI_TGTS = MANAGER.list(), MANAGER.list()
 
-NLP = spacy.load("en_core_web_sm")
-MANAGER = multiprocessing.Manager()
-WIKI_SRCS, WIKI_TGTS = MANAGER.list(), MANAGER.list()
 
-
-# ref: https://github.com/kakaobrain/helo_word/blob/master/gec/m2.py
+# Ref: https://github.com/kakaobrain/helo_word/blob/master/gec/m2.py
 def get_all_coder_ids(edits):
     coder_ids = set()
     for edit in edits:
@@ -28,7 +27,7 @@ def get_all_coder_ids(edits):
     return coder_ids
 
 
-# ref: https://github.com/kakaobrain/helo_word/blob/master/gec/m2.py
+# Ref: https://github.com/kakaobrain/helo_word/blob/master/gec/m2.py
 def m2_to_parallel(m2_files, ori, cor, drop_unchanged_samples, all):
     ori_fout = None
     if ori is not None:
@@ -95,78 +94,141 @@ def preprocess_jfleg():
                     tgt_out.write(tgt)
 
 
-def worker(srcs, tgts):
-    """Multi-processing worker for WikEd preprocessing
+# def worker(srcs: List[str], tgts: List[str]):
+#     """Multi-processing worker for WikEd preprocessing
+#     """
+#     for src, tgt in tqdm(zip(srcs, tgts), total=len(srcs)):
+#         doc = NLP(src)
+#         pos = [tok.pos_ for tok in doc]
+
+#         if ("VERB" not in pos) or (len(pos) < 3):
+#             continue
+
+#         WIKI_SRCS.append(src)
+#         WIKI_TGTS.append(tgt)
+
+
+# def preprocess_wikiedit():
+#     """Preprocess WikiEdit dataset
+#     """
+#     prefix = "wiked.tok."
+
+#     with open(f"{prefix}err", "r") as f_src, open(f"{prefix}cor", "r") as f_tgt:
+#         srcs = f_src.readlines()
+#         tgts = f_tgt.readlines()
+
+#         slices = len(srcs) // 8
+#         process1 = multiprocessing.Process(target=worker, args=[srcs[:slices], tgts[:slices]])
+#         process2 = multiprocessing.Process(target=worker, args=[srcs[slices:slices*2], tgts[slices:slices*2]])
+#         process3 = multiprocessing.Process(target=worker, args=[srcs[slices*2:slices*3], tgts[slices*2:slices*3]])
+#         process4 = multiprocessing.Process(target=worker, args=[srcs[slices*3:slices*4], tgts[slices*3:slices*4]])
+        
+#         process1.start()
+#         process2.start()
+#         process3.start()
+#         process4.start()
+
+#         process1.join()
+#         process2.join()
+#         process3.join()
+#         process4.join()
+
+#         pair = list(zip(WIKI_SRCS, WIKI_TGTS))
+#         random.shuffle(pair)
+#         src_lines, tgt_lines = zip(*pair)
+
+#         split_ratio = int(len(src_lines) * 0.7)
+
+#         train_src = src_lines[:split_ratio]
+#         train_tgt = tgt_lines[:split_ratio]
+
+#         valid_src = src_lines[split_ratio:]
+#         valid_tgt = tgt_lines[split_ratio:]
+
+#         with open("wiki_train.src", "w") as train_src_out, open("wiki_train.tgt", "w") as train_tgt_out:
+#             for src, tgt in zip(train_src, train_tgt):
+#                 train_src_out.write(src)
+#                 train_tgt_out.write(tgt)
+
+#         with open("wiki_valid.src", "w") as valid_src_out, open("wiki_valid.tgt", "w") as valid_tgt_out:
+#             for src, tgt in zip(valid_src, valid_tgt):
+#                 valid_src_out.write(src)
+#                 valid_tgt_out.write(tgt)
+
+
+def normalize(sentence):
+    """Normalize sentence in LANG8 corpora
     """
-    for src, tgt in tqdm(zip(srcs, tgts), total=len(srcs)):
-        doc = NLP(src)
-        pos = [tok.pos_ for tok in doc]
-
-        if ("VERB" not in pos) or (len(pos) < 3):
-            continue
-
-        WIKI_SRCS.append(src)
-        WIKI_TGTS.append(tgt)
+    sentence = sentence.replace("`", "")
+    sentence = sentence.replace("& nbsp ;", "")
+    sentence = re.sub(" +", " ", sentence)
+    return sentence
 
 
-def preprocess_wikiedit():
-    """Preprocess WikiEdit dataset
+def preprocess_lang8():
+    """Preprocess LANG8 dataset
     """
-    prefix = "wiked.tok."
+    nlp = spacy.load("en_core_web_sm")
+    weirdos = ["(", ")", "{", "}", "[", "]", "<", ">", ":", "/"]
     
-    with open(f"{prefix}err", "r") as f_src, open(f"{prefix}cor", "r") as f_tgt:
-        srcs = f_src.readlines()
-        tgts = f_tgt.readlines()
-
-        slices = len(srcs) // 8
-        process1 = multiprocessing.Process(target=worker, args=[srcs[:slices], tgts[:slices]])
-        process2 = multiprocessing.Process(target=worker, args=[srcs[slices:slices*2], tgts[slices:slices*2]])
-        process3 = multiprocessing.Process(target=worker, args=[srcs[slices*2:slices*3], tgts[slices*2:slices*3]])
-        process4 = multiprocessing.Process(target=worker, args=[srcs[slices*3:slices*4], tgts[slices*3:slices*4]])
-        process5 = multiprocessing.Process(target=worker, args=[srcs[slices*4:slices*5], tgts[slices*4:slices*5]])
-        process6 = multiprocessing.Process(target=worker, args=[srcs[slices*5:slices*6], tgts[slices*5:slices*6]])
-        process7 = multiprocessing.Process(target=worker, args=[srcs[slices*6:slices*7], tgts[slices*6:slices*7]])
-        process8 = multiprocessing.Process(target=worker, args=[srcs[slices*7:], tgts[slices*7:]])
+    with open("lang.src", "r") as f_src, open("lang.tgt", "r") as f_tgt:
+        src_lines = f_src.readlines()
+        tgt_lines = f_tgt.readlines()
         
-        process1.start()
-        process2.start()
-        process3.start()
-        process4.start()
-        process5.start()
-        process6.start()
-        process7.start()
-        process8.start()
-        
-        process1.join()
-        process2.join()
-        process3.join()
-        process4.join()
-        process5.join()
-        process6.join()
-        process7.join()
-        process8.join()
+        src_seen, tgt_seen = list(), list()
+        new_src, new_tgt = list(), list()
 
-        pair = list(zip(WIKI_SRCS, WIKI_TGTS))
-        random.shuffle(pair)
-        src_lines, tgt_lines = zip(*pair)
+        for src, tgt in tqdm(zip(src_lines, tgt_lines), total=len(src_lines)):
+            if (src in src_seen) or tgt in tgt_seen:
+                continue
 
-        split_ratio = int(len(src_lines) * 0.7)
+            tags = [token.pos_ for token in nlp(src)]
+            
+            if "VERB" not in tags:
+                continue
 
-        train_src = src_lines[:split_ratio]
-        train_tgt = tgt_lines[:split_ratio]
+            first_src = src.split(" ")[0].lower()
+            first_tgt = tgt.split(" ")[0].lower()
 
-        valid_src = src_lines[split_ratio:]
-        valid_tgt = tgt_lines[split_ratio:]
+            if first_src != first_tgt:
+                continue
 
-        with open("wiki_train.src", "w") as train_src_out, open("wiki_train.tgt", "w") as train_tgt_out:
-            for src, tgt in zip(train_src, train_tgt):
-                train_src_out.write(src)
-                train_tgt_out.write(tgt)
+            have_weirdo = False
+            for weirdo in weirdos:
+                if (weirdo in src) or (weirdo in tgt):
+                    have_weirdo = True
 
-        with open("wiki_valid.src", "w") as valid_src_out, open("wiki_valid.tgt", "w") as valid_tgt_out:
-            for src, tgt in zip(valid_src, valid_tgt):
-                valid_src_out.write(src)
-                valid_tgt_out.write(tgt)
+            if have_weirdo:
+                continue
+
+            new_src.append(normalize(src))
+            new_tgt.append(normalize(tgt))
+            src_seen.append(src)
+            tgt_seen.append(tgt)
+
+    assert len(new_src) == len(new_tgt), "Source and Target should be parallel"
+    
+    pair = list(zip(new_src, new_tgt))
+    random.shuffle(pair)
+    src_lines, tgt_lines = zip(*pair)
+
+    split_ratio = int(len(src_lines) * 0.85)
+
+    train_src = src_lines[:split_ratio]
+    train_tgt = tgt_lines[:split_ratio]
+
+    valid_src = src_lines[split_ratio:]
+    valid_tgt = tgt_lines[split_ratio:]
+
+    with open("lang_train.src", "w") as train_src_out, open("lang_train.tgt", "w") as train_tgt_out:
+        for src, tgt in zip(train_src, train_tgt):
+            train_src_out.write(src)
+            train_tgt_out.write(tgt)
+
+    with open("lang_valid.src", "w") as valid_src_out, open("lang_valid.tgt", "w") as valid_tgt_out:
+        for src, tgt in zip(valid_src, valid_tgt):
+            valid_src_out.write(src)
+            valid_tgt_out.write(tgt)
 
 
 def create_pair(mode: str, datasets: List[str]):
@@ -204,17 +266,22 @@ def main():
 
     logging.info("[TRAIN] CoNLL 2013")
     m2_to_parallel(sorted(glob("release2.3.1/original/data/official-preprocessed.m2")), "2013.src", "2013.tgt", False, False)
-    
+
     # logging.info("[TRAIN] WikEd")
     # preprocess_wikiedit()
-    create_pair("train", ["wi", "fce", "jfleg", "2013"])
+
+    # LANG8 is not publicly released!
+    # logging.info("[TRAIN] LANG8")
+    # m2_to_parallel(sorted(glob("lang8*.m2")), "lang.src", "lang.tgt", True, True)
+    # preprocess_lang8()
+    create_pair("train", ["wi", "fce", "jfleg", "2013", "lang_train"])
 
     logging.info("[VAL] WI+Locness")
     m2_to_parallel(sorted(glob("wi+locness/m2/*.dev.*m2")), "wi_test.src", "wi_test.tgt", False, True)
 
     logging.info("[VAL] CoNLL 2014")
     m2_to_parallel(sorted(glob("conll14st-test-data/noalt/official-2014.combined.m2")), "2014.src", "2014.tgt", False, False)
-    create_pair("val", ["wi_test", "2014"])
+    create_pair("val", ["wi_test", "2014", "lang_valid"])
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
