@@ -19,9 +19,6 @@ def reorder(sent: str):
         if token in specials:
             result[-1] = result[-1] + token
             continue
-
-        if len(result) > 0 and (result[-1] in ["'", '"']):
-            result[-1] = result[-1] + token
         result.append(token)
 
     return " ".join(result)
