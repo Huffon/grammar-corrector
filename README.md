@@ -54,23 +54,40 @@ python generate.py
 - To **test** your own sentences, fill [**input.txt**](output/input.txt) with your sentences
 
 ```
-[Before]
-(1): He am happy.
-(2): He will happy.
-(3): I went for school.
-(4): He don't speak English.
-(5): I doens't have money.
-(6): I want going for Guam.
-(7): I like here.
+[ori] (1): I went for school.
+[cor] (1): Then I went to school.
 
-[After]
-(1): He is happy.
-(2): He will be happy.
-(3): Then I went to school.
-(4): He doesn't speak English.
-(5): I do n't have money.
-(6): I want to go to Guam.
-(7): I like it here.
+[ori] (2): He don't speak English.
+[cor] (2): He doesn't speak English.
+
+[ori] (3): I doens't have money.
+[cor] (3): I don't have money.
+
+[ori] (4): I want going for Guam.
+[cor] (4): I want to go to Guam.
+
+[ori] (5): I like here.
+[cor] (5): I like it here.
+
+[ori] (6): He will happy.
+[cor] (6): He will be happy.
+
+[ori] (7): I is happy.
+[cor] (7): I am happy.
+
+...
+
+[ori] (15): I want to school.
+[cor] (15): I want to go to school.
+
+[ori] (16): I no speak English.
+[cor] (16): No, I don't speak English.
+
+[ori] (17): I have two foots.
+[cor] (17): I have two feet.
+
+[ori] (18): Despite it was noisy and crowded, we had a good time.
+[cor] (18): Despite it being noisy and crowded, we had a good time.
 ```
 
 <br/>
