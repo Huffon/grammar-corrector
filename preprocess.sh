@@ -1,3 +1,7 @@
+# Optional
+cp -r nucle/* /workspace/grammar-corrector/
+cp -r lang8/* /workspace/grammar-corrector/
+
 # WI+Locness
 wget https://www.cl.cam.ac.uk/research/nl/bea2019st/data/wi+locness_v2.1.bea19.tar.gz
 tar xvzf wi+locness_v2.1.bea19.tar.gz
@@ -40,7 +44,7 @@ for SPLIT in train val
 do
   for LANG in source target
   do
-    python -m examples.roberta.multiprocessing_bpe_encoder \
+    python utils/multiprocessing_bpe_encoder.py \
     --encoder-json encoder.json \
     --vocab-bpe vocab.bpe \
     --inputs "data/$SPLIT.$LANG" \

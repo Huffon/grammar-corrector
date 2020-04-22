@@ -1,5 +1,6 @@
 """Data pre-processing function"""
 import os
+import re
 import random
 import logging
 # import multiprocessing
@@ -231,6 +232,46 @@ def preprocess_lang8():
             valid_tgt_out.write(tgt)
 
 
+def preprocess_conll():
+    """Preprocess CONLL 2014 dataset
+    """
+    nlp = spacy.load("en_core_web_sm")
+    weirdos = ["(", ")", "{", "}", "[", "]", "<", ">", ":", "/", "http"]
+    
+    with open("conll2014.src", "r") as f_src, open("conll2014.tgt", "r") as f_tgt:
+        src_lines = f_src.readlines()
+        tgt_lines = f_tgt.readlines()
+        
+        new_src, new_tgt = list(), list()
+        for src, tgt in tqdm(zip(src_lines, tgt_lines), total=len(src_lines)):
+            tags = [token.pos_ for token in nlp(src)]
+            
+            if "VERB" not in tags:
+                continue
+
+            have_weirdo = False
+            for weirdo in weirdos:
+                if (weirdo in src) or (weirdo in tgt):
+                    have_weirdo = True
+
+            if have_weirdo:
+                continue
+
+            new_src.append(normalize(src))
+            new_tgt.append(normalize(tgt))
+
+    assert len(new_src) == len(new_tgt), "Source and Target should be parallel"
+    
+    pair = list(zip(new_src, new_tgt))
+    random.shuffle(pair)
+    src_lines, tgt_lines = zip(*pair)
+
+    with open("conll_train.src", "w") as train_src_out, open("conll_train.tgt", "w") as train_tgt_out:
+        for src, tgt in zip(src_lines, tgt_lines):
+            train_src_out.write(src)
+            train_tgt_out.write(tgt)
+
+
 def create_pair(mode: str, datasets: List[str]):
     """Create source and target file using pre-generated list
     """
@@ -276,9 +317,11 @@ def main():
     # preprocess_lang8()
 
     # NUCLE is not publicly released!
-    # logging.info("[TRAIN] NUCLE")
+    # logging.info("[TRAIN] NUCLE and CONLL 2014")
     # m2_to_parallel(sorted(glob("nucle*.m2")), "nucle.src", "nucle.tgt", True, True)
-    create_pair("train", ["wi", "fce", "jfleg", "2013", "lang_train", "nucle"])
+    # m2_to_parallel(sorted(glob("conll14st-preprocessed.m2")), "conll2014.src", "conll2014.tgt", False, False)
+    # preprocess_conll()
+    create_pair("train", ["wi", "fce", "jfleg", "2013", "lang_train", "nucle", "conll_train"])
 
     logging.info("[VAL] WI+Locness")
     m2_to_parallel(sorted(glob("wi+locness/m2/*.dev.*m2")), "wi_test.src", "wi_test.tgt", False, True)
