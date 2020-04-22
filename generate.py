@@ -25,7 +25,7 @@ def reorder(sent: str):
 
 
 def main():
-    bart = BARTModel.from_pretrained("ckpt", checkpoint_file="checkpoint8.pt")
+    bart = BARTModel.from_pretrained("ckpt", checkpoint_file="checkpoint_best.pt")
     bart.cuda()
     bart.half()
     bart.eval()

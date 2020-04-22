@@ -274,7 +274,11 @@ def main():
     # logging.info("[TRAIN] LANG8")
     # m2_to_parallel(sorted(glob("lang8*.m2")), "lang.src", "lang.tgt", True, True)
     # preprocess_lang8()
-    create_pair("train", ["wi", "fce", "jfleg", "2013", "lang_train"])
+
+    # NUCLE is not publicly released!
+    # logging.info("[TRAIN] NUCLE")
+    # m2_to_parallel(sorted(glob("nucle*.m2")), "nucle.src", "nucle.tgt", True, True)
+    create_pair("train", ["wi", "fce", "jfleg", "2013", "lang_train", "nucle"])
 
     logging.info("[VAL] WI+Locness")
     m2_to_parallel(sorted(glob("wi+locness/m2/*.dev.*m2")), "wi_test.src", "wi_test.tgt", False, True)
