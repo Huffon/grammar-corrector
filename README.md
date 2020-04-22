@@ -31,7 +31,6 @@ bash preprocess.sh
 
 ### BART
 
-- Best loss: **2.75** (**1** epoch)
 - To **download** and **fine-tune** pre-trained **BART**, run following command:
 
 ```
@@ -43,6 +42,7 @@ bash train.sh
 - To **generate** example sentence using fine-tuned **BART**, run following command:
 
 ```
+vi output/input.txt
 python generate.py
 ```
 
@@ -92,18 +92,18 @@ python generate.py
 
 <br/>
 
-## Data statistics (w/o WikEd)
+## Data statistics (w. LANG8 & NUCLE, w/o. WikEd)
 
 ```
 Source length
     Max: 1095
     Min: 2
-    Avg: 71
+    Avg: 75
 
 Target length
     Max: 1153
     Min: 1
-    Avg: 73
+    Avg: 77
 ```
 
 <br/>
