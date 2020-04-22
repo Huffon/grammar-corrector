@@ -1,6 +1,6 @@
 # Optional
-cp -r nucle/* /workspace/grammar-corrector/
-cp -r lang8/* /workspace/grammar-corrector/
+# cp -r nucle/* /workspace/grammar-corrector/
+# cp -r lang8/* /workspace/grammar-corrector/
 
 # WI+Locness
 wget https://www.cl.cam.ac.uk/research/nl/bea2019st/data/wi+locness_v2.1.bea19.tar.gz

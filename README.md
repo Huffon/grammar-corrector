@@ -98,12 +98,12 @@ python generate.py
 Source length
     Max: 1095
     Min: 2
-    Avg: 75
+    Avg: 80
 
 Target length
     Max: 1153
     Min: 1
-    Avg: 77
+    Avg: 81
 ```
 
 <br/>
